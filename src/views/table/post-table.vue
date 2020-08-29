@@ -59,48 +59,20 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="staffID" width="150px" align="center" sortable="custom" :class-name="getSortClass('id')">
+      <el-table-column label="职位编号" width="150px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.staffid }}</span>
+          <span>{{ row.postid }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="职位" prop="postId" align="center" width="80">
+      <el-table-column label="职位名称" prop="postName" align="center" width="80">
         <template slot-scope="{row}">
-          <span>{{ row.postName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="员工姓名" min-width="150px">
-        <template slot-scope="{row}">
-          <span>{{ row.staffName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="身份证号" min-width="150px">
-        <template slot-scope="{row}">
-          <span>{{ row.idcard }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="工作状态" class-name="status-col" width="100">
-        <template slot-scope="{row}">
-          <el-tag :type="row.state | statusFilter">
-            {{ row.state==1?'在职':'离职' }}
-          </el-tag>
+          <span>{{ row.postname }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Actions" align="center" width="330" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             修改信息
-          </el-button>
-          <el-button
-            v-if="row.state=='1'"
-            size="mini"
-            type="success"
-            @click="handleModifyStatus(row,'2')"
-          >
-            离职
-          </el-button>
-          <el-button v-if="row.state=='2'" size="mini" @click="handleModifyStatus(row,'1')">
-            在职
           </el-button>
         </template>
       </el-table-column>
@@ -121,21 +93,11 @@
         label-width="90px"
         style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="职能" prop="postId">
-          <el-select v-model="temp.postId" class="filter-item" placeholder="Please select">
-            <el-option
-              v-for="item in calendarTypeOptions"
-              :key="item.postid"
-              :label="item.postname"
-              :value="item.postid"
-            />
-          </el-select>
+        <el-form-item label="职位编号" prop="postId">
+          <el-input v-model="temp.postid" :autosize="{ minRows: 2, maxRows: 4}" placeholder="Please input"/>
         </el-form-item>
-        <el-form-item label="员工" prop="staffName">
-          <el-input v-model="temp.staffName" :autosize="{ minRows: 2, maxRows: 4}" placeholder="Please input"/>
-        </el-form-item>
-        <el-form-item label="身份证号" prop="idcard">
-          <el-input v-model="temp.idcard" placeholder="Please input"/>
+        <el-form-item label="职位名称" prop="postName">
+          <el-input v-model="temp.postname" placeholder="Please input"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -192,11 +154,8 @@
           page: 1,
           limit: 20,
           importance: undefined,
-          title: undefined,
-          title2: undefined,
-          idcard: undefined,
-          staffName: undefined,
           postId: undefined,
+          postName: undefined,
           sort: '+staffid'
         },
         importanceOptions: [1, 2, 3],
@@ -205,19 +164,13 @@
         statusOptions: ['published', 'draft', 'deleted'],
         showReviewer: false,
         temp: {
-          staffid: undefined,
           postId: undefined,
-          staffName: '',
-          idcard: '',
-          type: undefined,
+          postName: undefined,
           state: 'published'
         },
         staff: {
-          staffid: undefined,
           postId: undefined,
-          staffName: '',
-          idcard: '',
-          type: undefined,
+          postName: undefined,
           state: 'published'
         },
         dialogFormVisible: false,
@@ -277,7 +230,7 @@
         console.log("login-check")
         console.log(response.data)
       })
-      this.query()
+      this.getList()
 
       /* this.listLoading = true
         this.$axios.post('http://192.168.43.108:8099/Staff/query').then(response => {
@@ -304,32 +257,10 @@
         return url ? url.substring(1) : "";
       }
       ,
-      query() {
-        this.$axios.post('http://192.168.43.27:8080/Post/query').then(response => {
-          console.log(response.data)
-          this.calendarTypeOptions = response.data
-          this.getList(response.data)
-        })
-      },
-      getList(posts) {
-        console.log(posts)
+      getList() {
         this.listLoading = true
         fetchList(this.listQuery).then(response => {
-          this.$axios.post('http://192.168.43.27:8080/Staff/query').then(response => {
-            console.log(response.data)
-            for (t in response.data) {
-              var t = t
-              for (tt in posts) {
-                var tt = tt
-                console.log('rd')
-                console.log(response.data[t])
-                console.log('co')
-                console.log(posts)
-                if (response.data[t].postId == posts[tt].postid) {
-                  response.data[t].postname = posts[tt].postname
-                }
-              }
-            }
+          this.$axios.post('http://192.168.43.27:8080/Post/query').then(response => {
             console.log(response.data)
             this.list = response.data
           })

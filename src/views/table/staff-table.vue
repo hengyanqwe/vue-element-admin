@@ -59,7 +59,8 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="staffID" width="150px" align="center" sortable="custom" :class-name="getSortClass('id')">
+      <el-table-column label="staffID" width="150px" align="center" sortable="staffid"
+                       :class-name="getSortClass('staffid')">
         <template slot-scope="{row}">
           <span>{{ row.staffid }}</span>
         </template>
@@ -195,6 +196,7 @@
           title: undefined,
           title2: undefined,
           idcard: undefined,
+          staffid: undefined,
           staffName: undefined,
           postId: undefined,
           sort: '+staffid'
@@ -244,7 +246,6 @@
         // 请求超时时间
         timeout: 5000,
         // 是否携带凭证
-        withCredentials: true,
         responseType: "json"
       })
       // 添加请求拦截器

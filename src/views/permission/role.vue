@@ -161,6 +161,10 @@ export default {
       this.dialogVisible = true
       this.checkStrictly = true
       this.role = deepClone(scope.row)
+      console.log("this.role")
+      console.log(this.role)
+      console.log("this.role.routes")
+      console.log(this.role.routes)
       this.$nextTick(() => {
         const routes = this.generateRoutes(this.role.routes)
         this.$refs.tree.setCheckedNodes(this.generateArr(routes))

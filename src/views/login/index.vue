@@ -82,6 +82,7 @@ export default {
   components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
+      console.log()
       if (!validUsername(value)) {
         callback(new Error('Please enter the correct user name'))
       } else {
@@ -156,8 +157,11 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          console.log("loginform")
+          console.log(this.loginForm)
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
+              console.log("")
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
             })
@@ -173,7 +177,10 @@ export default {
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
         if (cur !== 'redirect') {
+
           acc[cur] = query[cur]
+          console.log("acc[cur]")
+          console.log(acc[cur])
         }
         return acc
       }, {})

@@ -71,17 +71,17 @@ const constantRoutes = [
     ]
   }
 ]
-
+//管理员Routes列表
 const asyncRoutes = [
   {
     path: '/permission',
     component: 'layout/Layout',
     redirect: '/permission/index',
-    alwaysShow: true,
+    alwaysShow: false,
     meta: {
       title: 'Permission',
       icon: 'lock',
-      roles: ['admin', 'editor']
+      roles: ['']
     },
     children: [
       {
@@ -90,7 +90,7 @@ const asyncRoutes = [
         name: 'PagePermission',
         meta: {
           title: 'Page Permission',
-          roles: ['admin']
+          roles: ['s']
         }
       },
       {
@@ -107,7 +107,7 @@ const asyncRoutes = [
         name: 'RolePermission',
         meta: {
           title: 'Role Permission',
-          roles: ['admin']
+          roles: ['s']
         }
       }
     ]

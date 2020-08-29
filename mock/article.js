@@ -33,7 +33,7 @@ module.exports = [
     type: 'get',
     response: config => {
       const { importance, type, title, page = 1, limit = 20, sort } = config.query
-
+      console.log("wtf" + config.query)
       let mockList = List.filter(item => {
         if (importance && item.importance !== +importance) return false
         if (type && item.type !== type) return false

@@ -133,12 +133,12 @@ export const asyncRoutes = [
     path: '/permission',
     component: Layout,
     redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
+    alwaysShow: false, // will always show the root menu
     name: 'Permission',
     meta: {
       title: 'Permission',
       icon: 'lock',
-      roles: ['admin'] // you can set roles in root nav
+      roles: ['sss'] // you can set roles in root nav
     },
     children: [
       {
@@ -147,7 +147,7 @@ export const asyncRoutes = [
         name: 'PagePermission',
         meta: {
           title: 'Page Permission',
-          roles: ['admin'] // or you can only set roles in sub nav
+          roles: ['ss'] // or you can only set roles in sub nav
         }
       },
       {
@@ -156,7 +156,7 @@ export const asyncRoutes = [
         name: 'DirectivePermission',
         meta: {
           title: 'Directive Permission',
-          roles: ['admin']
+          roles: ['s']
           // if do not set roles, means: this page does not require permission
         }
       },
@@ -166,7 +166,7 @@ export const asyncRoutes = [
         name: 'RolePermission',
         meta: {
           title: 'Role Permission',
-          roles: ['admin']
+          roles: ['s']
         }
       }
     ]
@@ -175,12 +175,13 @@ export const asyncRoutes = [
   {
     path: '/icon',
     component: Layout,
+    meta: {roles: ['sss']},
     children: [
       {
         path: 'index',
         component: () => import('@/views/icons/index'),
         name: 'Icons',
-        meta: { title: 'Icons', icon: 'icon', noCache: true }
+        meta: {title: 'Icons', icon: 'icon', noCache: true, roles: ['sss']}
       }
     ]
   },
