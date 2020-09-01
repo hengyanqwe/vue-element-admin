@@ -1,25 +1,28 @@
+//import router from "../../src/router";
+
 const Mock = require('mockjs')
 const { deepClone } = require('../utils')
 const { asyncRoutes, constantRoutes } = require('./routes.js')
-
+//const { asyncRoutes, constantRoutes } = require('../../src/router/index.js')
 const routes = deepClone([...constantRoutes, ...asyncRoutes])
-
+//const s = require('asyncRoutes')
+//D:\study\s3\webstrom\vue-element-admin\mock\role\index.js
 const roles = [
   {
     key: 'admin',
     name: 'admin',
     description: 'Super Administrator. Have access to view all pages.',
-    routes: routes.filter(i => i.path !== '/permission')
+    routes: routes.filter(i => i.roles === ['admin'])
   },
   {
     key: 'editor',
     name: 'editor',
     description: 'Normal Editor. Can see all pages except permission page',
-    routes: routes.filter(i => i.path !== '/permission')// just a mock
+    routes: routes.filter(i => i.path !== '/spermission')// just a mock
   },
   {
-    key: '233',
-    name: '233',
+    key: 'aa2a',
+    name: 'aa2a',
     description: 'Normal Editor. Can see all pages except permission page',
     routes: routes.filter(i => i.path !== '/permission')// just a mock
   },

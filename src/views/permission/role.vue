@@ -63,6 +63,7 @@
 import path from 'path'
 import { deepClone } from '@/utils'
 import { getRoutes, getRoles, addRole, deleteRole, updateRole } from '@/api/role'
+import * as Mock from "mockjs";
 
 const defaultRole = {
   key: '',
@@ -93,6 +94,8 @@ export default {
   },
   created() {
     // Mock: get all routes and roles list from server
+    //console.log(Mock.mock().caonima)
+    console.log(this.$refs.caonima)
     this.getRoutes()
     this.getRoles()
   },

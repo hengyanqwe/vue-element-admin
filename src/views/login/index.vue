@@ -76,22 +76,23 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
-
+import Mockk from "../../../node_modules/mockjs";
+//D:\study\s3\webstrom\vue-element-admin\src\views\login\index.vue
 export default {
   name: 'Login',
   components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
-      console.log()
+      console.log("value" + value)
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('请不要忘记输入'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('请检查是否输入完整'))
       } else {
         callback()
       }
@@ -99,7 +100,7 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: '123456'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -126,6 +127,12 @@ export default {
     }
   },
   created() {
+    //this.$mockXHR().user="ccc"
+    // process.env.NODE_ENV="sss"
+    //this.$mockXHR.Request.mocks
+    //console.log(Mockk.)
+    console.log("created")
+    // console.log(this.$hystore.state.cms)
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
@@ -153,21 +160,51 @@ export default {
         this.$refs.password.focus()
       })
     },
+    param(data) {
+      let url = ""
+      for (let k in data) {
+        let value = data[k] != undefined ? data[k] : ""
+        url += `&${k}=${encodeURIComponent(value)}`
+      }
+      return url ? url.substring(1) : "";
+    },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          console.log("loginform")
-          console.log(this.loginForm)
-          this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
-              console.log("")
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
+
+          let dddd = {
+
+            anNumber: this.loginForm.username,
+            anPassword: this.loginForm.password
+
+          }
+          let data = this.param(dddd)
+          console.log("data")
+          console.log(data)
+          //var tttt={username:"{ \"token\": \"editor-token\" }",password:"error"}
+          var tttt = {username: this.loginForm.username, password: "error"}
+          this.$axios.post(`http://192.168.43.27:8080/login-check`, this.param(dddd), {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(response => {
+            console.log("login-check")
+            console.log(response.data)
+            console.log(response.data.anId)
+            if (response.data.anId > 0) {
+              tttt.username = response.data.jur
+              console.log("????????")
+              tttt.password = "true";
+            }
+            console.log(tttt.password)
+            this.$store.dispatch('user/login', tttt)
+              .then(() => {
+                this.$router.push({path: this.redirect || '/', query: this.otherQuery})
+                this.loading = false
+              })
+              .catch(() => {
+                this.loading = false
+              })
+          })
+
+
         } else {
           console.log('error submit!!')
           return false

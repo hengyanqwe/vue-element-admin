@@ -1,16 +1,23 @@
 //设置权限对应的角色
-//admin是权限，token是角色
+//admin是账号，token是角色
 const tokens = {
   admin: {
     token: 'admin-token'
   },
   editor: {
     token: 'editor-token'
+  },
+  ad: {
+    token: 'editor-token'
+  }
+  ,
+  1: {
+    token: '1'
   }
 }
 //设置角色对应的账号
 //admin-token 是角色，admin是账号
-const users = {
+var users = {
   'admin-token': {
     roles: ['admin'],
     introduction: 'I am a super administrator',
@@ -22,23 +29,44 @@ const users = {
     introduction: 'I am an editor',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Normal Editor'
+  },
+  '1': {
+    roles: ['2'],
+    introduction: 'I am an editor',
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    name: 'Normal Editor'
   }
 }
 
 module.exports = [
-  // user login
+
+  // 这tm才是user login
   {
     url: '/vue-element-admin/user/login',
     type: 'post',
     response: config => {
+      console.log("config")
+      console.log(config.body)
       const { username } = config.body
-      const token = tokens[username]
-
+      const {password} = config.body
+      /*return {
+        code: 60204,
+        message: config
+      }*/
+      console.log(username)
+      console.log(password)
+      //const token = tokens["admin"]
+      //console.log(JSON.stringify(token))
+      const token = tokens[1]
+      console.log("token")
+      console.log(token)
+      users['1'].roles = username.split(",")
+      console.log(users)
       // mock error
-      if (!token) {
+      if (password == "error") {
         return {
           code: 60204,
-          message: 'Account and password are incorrect.'
+          message: '账号或密码错误！'
         }
       }
 
@@ -56,7 +84,7 @@ module.exports = [
     response: config => {
       const { token } = config.query
       const info = users[token]
-
+      console.log(info)
       // mock error
       if (!info) {
         return {

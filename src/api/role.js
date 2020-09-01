@@ -7,7 +7,10 @@ export function getRoutes() {
   })
 }
 
+//D:\study\s3\webstrom\vue-element-admin\src\api\role.js
 export function getRoles() {
+  console.log("getRoles")
+  //console.log(this.$hystore.state)
   return request({
     url: '/vue-element-admin/roles',
     method: 'get'
@@ -15,6 +18,8 @@ export function getRoles() {
 }
 
 export function addRole(data) {
+  console.log("addRole")
+  //console.log(this.$hystore.state.cms)
   return request({
     url: '/vue-element-admin/role',
     method: 'post',

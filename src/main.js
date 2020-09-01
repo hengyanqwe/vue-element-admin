@@ -1,7 +1,8 @@
 import Vue from 'vue'
-
+import Vuex from 'vuex'
 import Cookies from 'js-cookie'
 
+Vue.use(Vuex)
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 
 import Element from 'element-ui'
@@ -12,8 +13,11 @@ import '@/styles/index.scss' // global css
 
 import App from './App'
 import store from './store'
-import router from './router'
+import router, {asyncRoutes, constantRoutes} from './router'
 import axios from 'axios'
+import {mockXHR} from '../mock'
+
+Vue.prototype.$mockXHR = mockXHR
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
@@ -21,7 +25,14 @@ import './utils/error-log' // error log
 import * as filters from './filters' // global filters
 axios.defaults.withCredentials = true;
 Vue.prototype.$axios = axios
-
+let hystore = new Vuex.Store({
+  state: {
+    cms: asyncRoutes
+  }
+})
+console.log("hystore.state.cms")
+console.log(hystore.state.cms)
+Vue.prototype.$hystore = hystore
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -52,5 +63,6 @@ new Vue({
   router,
   store,
   render: h => h(App),
-  axios
+  axios,
+  hystore
 })
